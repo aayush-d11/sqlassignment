@@ -1,0 +1,21 @@
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> set @nextcustomer=(select max(customerNumber)+1 from customers);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into customers values(@nextcustomer,'abc','no','one',98787,'jaipur','rajasthan','jaipur','rajasthan',302001,'India',1165,100000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into orders(orderNumber,orderDate,requiredDate,shippedDate,status,customerNumber) values (@nextorder,'2020-06-09','2020-06-19','2020-07-08','shipped',@nextcustomer);Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into orderdetails values(@nextorder,'S32_2206',1,24.14,100);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into payments values(@nextcustomer,'SA1234','2020-06-25',24.14);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+
