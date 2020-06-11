@@ -1,0 +1,32 @@
+mysql> select customerNumber,orderNumber,Shippeddate,paymentdate,amount,quantityordered,productname,image from orders inner join orderdetails using(orderNumber)
+    -> inner join products using (productCode)
+    -> inner join customers using(customerNumber)
+    -> inner join productlines using(productLine)
+    -> inner join payments using(customerNumber)
+    -> where customerNumber=@nextcustomer;
++----------------+-------------+-------------+-------------+--------+-----------------+-------------------+-------+
+| customerNumber | orderNumber | Shippeddate | paymentdate | amount | quantityordered | productname       | image |
++----------------+-------------+-------------+-------------+--------+-----------------+-------------------+-------+
+|            497 |       10426 | 2020-07-08  | 2020-06-25  |  24.14 |               1 | 1982 Ducati 996 R | NULL  |
++----------------+-------------+-------------+-------------+--------+-----------------+-------------------+-------+
+1 row in set (0.00 sec)
+
+
+mysql> explain select customerNumber,orderNumber,Shippeddate,paymentdate,amount,quantityordered,productname,image from orders inner join orderdetails using(orderNumber)
+    -> inner join products using (productCode)
+    -> inner join customers using(customerNumber)
+    -> inner join productlines using(productLine)
+    -> inner join payments using(customerNumber)
+    -> where customerNumber=@nextcustomer;
++----+-------------+--------------+------------+--------+------------------------+----------------+---------+----------------------------------------+------+----------+-------------+
+| id | select_type | table        | partitions | type   | possible_keys          | key            | key_len | ref                                    | rows | filtered | Extra       |
++----+-------------+--------------+------------+--------+------------------------+----------------+---------+----------------------------------------+------+----------+-------------+
+|  1 | SIMPLE      | customers    | NULL       | const  | PRIMARY                | PRIMARY        | 4       | const                                  |    1 |   100.00 | Using index |
+|  1 | SIMPLE      | orders       | NULL       | ref    | PRIMARY,customerNumber | customerNumber | 4       | const                                  |    1 |   100.00 | NULL        |
+|  1 | SIMPLE      | payments     | NULL       | ref    | PRIMARY                | PRIMARY        | 4       | const                                  |    1 |   100.00 | NULL        |
+|  1 | SIMPLE      | orderdetails | NULL       | ref    | PRIMARY,productCode    | PRIMARY        | 4       | classicmodels.orders.orderNumber       |    9 |   100.00 | NULL        |
+|  1 | SIMPLE      | products     | NULL       | eq_ref | PRIMARY,productLine    | PRIMARY        | 17      | classicmodels.orderdetails.productCode |    1 |   100.00 | NULL        |
+|  1 | SIMPLE      | productlines | NULL       | eq_ref | PRIMARY                | PRIMARY        | 52      | classicmodels.products.productLine     |    1 |   100.00 | NULL        |
++----+-------------+--------------+------------+--------+------------------------+----------------+---------+----------------------------------------+------+----------+-------------+
+6 rows in set, 1 warning (0.00 sec)
+
