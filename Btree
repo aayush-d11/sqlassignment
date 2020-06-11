@@ -1,0 +1,20 @@
+Btree
+
+a B-tree is a self-balancing tree data structure that maintains sorted data and allows searches, sequential access, insertions, and deletions in logarithmic time. The B-tree generalizes the binary search tree, allowing for nodes with more than two children.
+
+Index:
+
+A database index is a data structure that improves the speed of data retrieval operations on a database table at the cost of additional writes and storage space to maintain the index data structure
+
+
+CLUSTERED INDEX :
+ When we create a table with a primary key or unique key, MySQL automatically creates a special index named PRIMARY. This index is called the clustered index.
+
+Secondary Index:
+
+A secondary index, put simply, is a way to efficiently access records in a database (the primary) by means of some piece of information other than the usual (primary) key.
+
+HASH INDEXES :
+ Hash indexes (user controlled) are used only in MEMORY engine and can be used for exact lookups. For each column a hash is calculated and then it’s used for lookups. 
+
+
